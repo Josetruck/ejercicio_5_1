@@ -56,7 +56,12 @@ if (dni.length !== 9) {
     var email = "veradelmar@gmail.com";
     for (let i = 0; i < email.length; i++) {
         if() {
-            
+            if (email[i] == '@' && (i != 0 || i < (email.length - 3))) {
+                arrobaOk = true;
+            }
+            if (email[i] == '.' && arrobaOk && i != (email.length - 1)) {
+                puntodespuesOk = true;
+            }
         }
             
     }
