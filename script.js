@@ -66,7 +66,7 @@ if (dni.length !== 9) {
             
     }
         
-    }
+    
 
     // 
     email.charCodeAt(0) //64 - 90, 95, 46, 97-122
