@@ -90,9 +90,9 @@ function checkDireccion(direccion) {
   if (numero_ok == false) {
     alert("El número de la dirección no es correcto.")
   }
-
+console.log(direccionSeparado[5])
   // condicion para el CP: if (cpostal.length == 5 && (cpostal <= 52999 && cpostal >= 1000))
-  var cpostal = parseInt(direccionSeparado[5]);
+  var cpostal = parseInt(direccionSeparado[4]);
   var cp_ok = cpostal <= 52999 && cpostal >= 1000;
   if (cp_ok == false) {
     alert("El código postal introducido no es válido.")
@@ -131,8 +131,6 @@ function checkDni(dni) {
     letra_ok = false;
   }
   if (letra_ok && numero_ok && letra_dni == encontrado) {
-    alert(
-      "El dni insertado " + numero + " con letra " + letra_dni + " es CORRECTO");
     dni_ok = true;
   } else {
     alert("El dni insertado " + numero + " con letra " + letra_dni + " es INCORRECTO");
@@ -288,9 +286,8 @@ function pasaDatos() {
     alert("Debes introducir la contraseña")
   }
   var passwordok = checkPass(password);
-return nombreok && apellidosok && direccionok && email_ok && dniok && interesesok && password
-}
-var registro = pasaDatos();
-if(registro){
+  if(nombreok && apellidosok && direccionok && email_ok && dniok && interesesok && passwordok){
   alert("ENHORABUENA!! REGISTRO COMPLETADOOO")
+  }
+return nombreok && apellidosok && direccionok && email_ok && dniok && interesesok && password
 }
