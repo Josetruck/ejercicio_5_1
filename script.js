@@ -1,35 +1,35 @@
 function empiezaMayuscula(palabra) {
-  return palabra[0] === palabra[0].toUpperCase();
+
+  return palabra.charAt(0) == palabra.charAt(0).toUpperCase();
 }
-function separarNombre(palabra) {
-  var palabraSeparado = [];
+function separarNombre(nombre) {
+  var nombreSeparado = [];
   var aux = "";
-  for (let i = 0; i < palabra.length; i++) {
-    if (palabra[i] != " ") {
-      aux += palabra[i];
+  for (let i = 0; i < nombre.length; i++) {
+    if (nombre[i] != " ") {
+      aux += nombre[i];
     }
-    if (palabra[i] == " " || i == palabra.length - 1) {
-      palabraSeparado.push(aux);
+    if (nombre[i] == " " || i == nombre.length - 1) {
+      nombreSeparado.push(aux);
       aux = "";
     }
   }
-  return palabraSeparado;
+  return nombreSeparado;
 }
 
 function esMayuscula(letra) {
-  return letra === letra.toUpperCase();
+  return letra == letra.toUpperCase();
 }
 function esMinuscula(letra) {
-  return letra === letra.toLowerCase();
+  return letra == letra.toLowerCase();
 }
 // ascii = del 32 al 47, del 58 al 64, 91 a 96, del 123 al 254;
 function esSimbolo(letra) {
-  return (
-    (letra.charCodeAt() >= 32 && letra.charCodeAt() <= 47) ||
+  return ((letra.charCodeAt() >= 32 && letra.charCodeAt() <= 47) ||
     (letra.charCodeAt() >= 58 && letra.charCodeAt() <= 64) ||
     (letra.charCodeAt() >= 91 && letra.charCodeAt() <= 96) ||
-    (letra.charCodeAt() >= 123 && letra.charCodeAt() <= 254)
-  );
+    (letra.charCodeAt() >= 123 && letra.charCodeAt() <= 254));
+
 }
 function esUnNum(num) {
   return num.charCodeAt() >= 48 && num.charCodeAt() <= 57;
@@ -38,12 +38,9 @@ function esUnNum(num) {
 function soloLetras(palabra) {
   var sololetrasOK = true;
   for (let i = 0; i < palabra.length; i++) {
-    if (
-      !(
-        (palabra.charCodeAt(i) > 64 && palabra.charCodeAt(i) < 91) || // Si NO Es una letra mayúscula o minúscula --> falso
-        (palabra.charCodeAt(i) > 96 && palabra.charCodeAt(i) < 123)
-      )
-    ) {
+
+    if (!((palabra.charCodeAt(i) > 64 && palabra.charCodeAt(i) < 91) || (palabra.charCodeAt(i) > 96 && palabra.charCodeAt(i) < 123))) {
+
       sololetrasOK = falso; //si no pasa esto, se queda verdadera
     }
   }
@@ -60,37 +57,59 @@ function esNumero(numero) {
     return num_ok;
   }
 }
-
+//  Formato: Tipo vía/ Nombre vía, Número, Resto de Datos (piso, portal...etc), CP, Población y País (separados por ,)
 function checkDireccion(direccion) {
   var direccionSeparado = [];
   var aux = "";
+
 
   for (let i = 0; i < direccion.length; i++) {
     if (direccion[i] != "," && direccion[i] != "/") {
       aux += direccion[i];
     }
-    if (
-      direccion[i] == "/" ||
-      direccion[i] == "," ||
-      i == direccion.length - 1
-    ) {
+    if (direccion[i] == "/" || direccion[i] == "," || i == direccion.length - 1) {
       direccionSeparado.push(aux);
       aux = "";
     }
   }
-
+  //Comprobamos si la longitud es correcta para saber si faltan campos por rellenar.
+  var longitud = direccionSeparado.length == 7;
+  if (longitud == false) {
+    alert("Faltan campos por rellenar, compruebe que el formato es correcto.")
+  }
+  //Todos los tipos de via de correos, para comprobar si el tipo de via es correcto.
+  var tipovia_ok = false;
+  const tipovia = ["Alameda", "Calle", "Camino", "Carrer", "Carretera", "Glorieta", "Kalea", "Pasaje", "Paseo", "Plaça", "Plaza", "Rambla", "Ronda", "Rúa", "Sector", "Travesía", "Urbanización", "Avenida", "Avinguda", "Barrio", "Calleja", "Camí", "Campo", "Carrera", "Cuesta", "Edificio", "Enparantza", "Estrada", "Jardines", "Jardins", "Parque", "Passeig", "Praza", "Plazuela", "Placeta", "Poblado", "Via", "Travessera", "Passatge", "Bulevar", "Polígono", "Otros"];
+  for (let i = 0; i < tipovia.length; i++) {
+    //direccionSeparado[0] corresponde al tipo de via introducido por el usuario
+    if (direccionSeparado[0] == tipovia[i]) {
+      tipovia_ok = true;
+    } 
+  }
+  if(tipovia_ok==false){
+    alert("Debes introducir un tipo de via válido")
+  }
+  // condicion para comprobar el número.
+  var numero = direccionSeparado[2];
+  var numero_ok = esNumero(numero);
+  if (numero_ok == false) {
+    alert("El número de la dirección no es correcto.")
+  }
+console.log(direccionSeparado[5])
   // condicion para el CP: if (cpostal.length == 5 && (cpostal <= 52999 && cpostal >= 1000))
-  var cpostal = parseInt(direccionSeparado[5]);
+  var cpostal = parseInt(direccionSeparado[4]);
   var cp_ok = cpostal <= 52999 && cpostal >= 1000;
-  // check calle
+  if (cp_ok == false) {
+    alert("El código postal introducido no es válido.")
+  }
+  // check definitivo
+  return direccionok = longitud && tipovia_ok && numero_ok && cp_ok;
 }
 
 function checkDni(dni) {
   var letra_dni = "";
   letra_dni = dni[dni.length - 1];
-  console.log(letra_dni);
   letra_dni = letra_dni.toUpperCase();
-  console.log(letra_dni);
   var numero =
     dni[0] + dni[1] + dni[2] + dni[3] + dni[4] + dni[5] + dni[6] + dni[7];
   var dni_ok = false;
@@ -98,33 +117,7 @@ function checkDni(dni) {
   var letra_ok = true;
   //calculamos la diferencia de la división para saber la posición
   var resto = numero % 23;
-  var letras = [
-    "T",
-    "R",
-    "W",
-    "A",
-    "G",
-    "M",
-    "Y",
-    "F",
-    "P",
-    "D",
-    "X",
-    "B",
-    "N",
-    "J",
-    "Z",
-    "S",
-    "Q",
-    "V",
-    "H",
-    "L",
-    "C",
-    "K",
-    "E",
-    "T",
-  ];
-  letras = letras.join("");
+  var letras = "TRWAGMYFPDXBNJZSQVHLCKET";
   var encontrado = letras.charAt(resto);
   if (dni.length != 9) {
     //si el numero es mayor pues se le comunica al usuario
@@ -132,27 +125,20 @@ function checkDni(dni) {
   }
   for (let i = 0; i < numero.length; i++) {
     if (numero.charCodeAt(i) < 48 || numero.charCodeAt(i) > 56) {
-      alert("Numero incorrecto");
       numero_ok = false;
     }
+  }
+  if (numero_ok == false){
+   alert("Numero del DNI es incorrecto");
   }
   if (letra_dni.charCodeAt(0) < 65 || letra_dni.charCodeAt(0) > 90) {
     alert("La letra del DNI no es correcta");
     letra_ok = false;
   }
   if (letra_ok && numero_ok && letra_dni == encontrado) {
-    alert(
-      "El dni insertado " + numero + " con letra " + letra_dni + " es CORRECTO"
-    );
     dni_ok = true;
   } else {
-    alert(
-      "El dni insertado " +
-        numero +
-        " con letra " +
-        letra_dni +
-        " es INCORRECTO"
-    );
+    alert("El dni insertado " + numero + " con letra " + letra_dni + " es INCORRECTO");
     dni_ok = false;
   }
 }
@@ -168,15 +154,8 @@ function checkEmail(email) {
   var puntodespuesOk = false;
   var carcteresOK = true;
   for (let i = 0; i < email.length; i++) {
-    if (
-      !(
-        email.charCodeAt(i) == 46 ||
-        email.charCodeAt(i) == 95 ||
-        (email.charCodeAt(i) > 63 && email.charCodeAt(i) < 91) ||
-        (email.charCodeAt(i) > 47 && email.charCodeAt(i) < 58) ||
-        (email.charCodeAt(i) > 96 && email.charCodeAt(i) < 123)
-      )
-    ) {
+    if (!(email.charCodeAt(i) == 46 || email.charCodeAt(i) == 95 || (email.charCodeAt(i) > 63 && email.charCodeAt(i) < 91)
+      || (email.charCodeAt(i) > 47 && email.charCodeAt(i) < 58) || (email.charCodeAt(i) > 96 && email.charCodeAt(i) < 123))) {
       carcteresOK = false;
     }
     if (email[i] == "@" && (i != 0 || i < email.length - 3)) {
@@ -216,6 +195,7 @@ function separarIntereses(intereses) {
   }
   return match;
 }
+
 
 // FUNCION DE LA CONTRASEÑAAAAAAAAAAAAAAAAAAAAA
 //Al menos una mayuscula
@@ -258,13 +238,64 @@ function pasaDatos() {
   var dni = document.getElementById("dni").value;
   var intereses = document.getElementById("intereses").value;
   var password = document.getElementById("password").value;
-  nombre = separarNombre(nombre);
-  var nombreok = empiezaMayuscula(
-    nombre[0] && empiezaMayuscula(nombre[nombre.length - 1])
-  );
-  apellidos = separarDireccion(apellidos);
-  var apellidosok = empiezaMayuscula(
-    apellidos[0] && empiezaMayuscula(apellidos[apellidos.length - 1])
-  );
-  var direccionok = che;
+
+  if (nombre == null || nombre.length < 3) {
+    alert("Es necesario introducir un nombre correcto")
+  } else {
+   nombre = separarNombre(nombre);
+    var nombreok = true;
+    nombreok = empiezaMayuscula(nombre[0]) && empiezaMayuscula(nombre[nombre.length-1]);
+    if (nombreok == false) {
+      alert("El nombre no es correcto")
+    }
+  }
+  if (apellidos == null || apellidos.length < 3) {
+    alert("Es necesario introducir un apellidos correcto")
+  } else {
+    apellidos = separarNombre(apellidos);
+    var apellidosok = empiezaMayuscula(apellidos[0]) && empiezaMayuscula(apellidos[apellidos.length - 1]);
+    if (apellidosok == false) {
+      alert("El o los apellidos no son correctos");
+    }
+  }
+  if(direccion==null){
+    alert("Debes introducir una dirección")
+  } else {
+  var direccionok = checkDireccion(direccion);
+  if(direccionok == false){
+    alert("La dirección no es correcta");
+  }
+  }
+  if(email == null || email2 == null){
+    alert("debes introducir los dos emails")
+  } else {
+    var email_ok = (checkEmail(email) && checkEmail(email2)) && (email === email2);
+    if (checkEmail(email) == false){
+      alert("El email no es correcto")
+    }
+    if (checkEmail(email2) == false){
+      alert("El email de confirmación no es correcto")
+    }
+    if (email !== email2){
+      alert("El email de confirmación no coincide con el email.")
+    }
+  }
+  if(dni==null){
+    alert("Debes introducir el DNI")
+  } else {
+    var dniok=checkDni(dni);
+  }
+  var interesesok = separarIntereses(intereses);
+  if(interesesok == false){
+    alert("No has introducido bien los intereses, vuelve a intentarlo.")
+  }
+  if(password == null){
+    alert("Debes introducir la contraseña")
+  }
+  var passwordok = checkPass(password);
+  if(nombreok && apellidosok && direccionok && email_ok && dniok && interesesok && passwordok){
+  alert("ENHORABUENA!! REGISTRO COMPLETADOOO")
+  }
+return nombreok && apellidosok && direccionok && email_ok && dniok && interesesok && password
+
 }
