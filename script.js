@@ -1,4 +1,5 @@
 function empiezaMayuscula(palabra) {
+
   return palabra.charAt(0) == palabra.charAt(0).toUpperCase();
 }
 function separarNombre(nombre) {
@@ -28,6 +29,7 @@ function esSimbolo(letra) {
     (letra.charCodeAt() >= 58 && letra.charCodeAt() <= 64) ||
     (letra.charCodeAt() >= 91 && letra.charCodeAt() <= 96) ||
     (letra.charCodeAt() >= 123 && letra.charCodeAt() <= 254));
+
 }
 function esUnNum(num) {
   return num.charCodeAt() >= 48 && num.charCodeAt() <= 57;
@@ -36,7 +38,9 @@ function esUnNum(num) {
 function soloLetras(palabra) {
   var sololetrasOK = true;
   for (let i = 0; i < palabra.length; i++) {
+
     if (!((palabra.charCodeAt(i) > 64 && palabra.charCodeAt(i) < 91) || (palabra.charCodeAt(i) > 96 && palabra.charCodeAt(i) < 123))) {
+
       sololetrasOK = falso; //si no pasa esto, se queda verdadera
     }
   }
@@ -57,6 +61,7 @@ function esNumero(numero) {
 function checkDireccion(direccion) {
   var direccionSeparado = [];
   var aux = "";
+
 
   for (let i = 0; i < direccion.length; i++) {
     if (direccion[i] != "," && direccion[i] != "/") {
@@ -191,6 +196,7 @@ function separarIntereses(intereses) {
   return match;
 }
 
+
 // FUNCION DE LA CONTRASEÑAAAAAAAAAAAAAAAAAAAAA
 //Al menos una mayuscula
 //AL menos una minuscula
@@ -232,6 +238,7 @@ function pasaDatos() {
   var dni = document.getElementById("dni").value;
   var intereses = document.getElementById("intereses").value;
   var password = document.getElementById("password").value;
+
   if (nombre == null || nombre.length < 3) {
     alert("Es necesario introducir un nombre correcto")
   } else {
@@ -290,4 +297,5 @@ function pasaDatos() {
   alert("ENHORABUENA!! REGISTRO COMPLETADOOO")
   }
 return nombreok && apellidosok && direccionok && email_ok && dniok && interesesok && password
+
 }
